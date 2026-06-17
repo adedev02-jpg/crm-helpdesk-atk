@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Helpdesk ATK — CV. Indah Maju Gemilang</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --navy: #0F3460;
+    --navy-light: #16213E;
+    --navy-mid: #1A3A5C;
+    --red: #E94560;
+    --red-soft: #FFF0F2;
+    --blue: #2563EB;
+    --blue-soft: #EFF6FF;
+    --amber: #D97706;
+    --amber-soft: #FFFBEB;
+    --green: #059669;
+    --green-soft: #ECFDF5;
+    --bg: #F0F4F8;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --border-mid: #CBD5E1;
+    --text: #0F172A;
+    --text-mid: #475569;
+    --text-soft: #94A3B8;
+    --sidebar-w: 220px;
+    --header-h: 60px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  
+  .hidden { display: none !important; }
+
+  /* ── LANDING ── */
+  #page-landing {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0F3460 0%, #16213E 50%, #0D2137 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #page-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(37,99,235,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(233,69,96,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .landing-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .landing-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 48px 56px;
+    width: 460px;
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+  .logo-ring {
+    width: 72px; height: 72px; border-radius: 18px;
+    background: linear-gradient(135deg, var(--blue), var(--navy));
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 32px;
+  }
+  .landing-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .landing-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+  .landing-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 36px; }
+  .landing-btns { display: flex; flex-direction: column; gap: 12px; }
+  .btn-land-pelanggan {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: #fff; color: var(--navy); border: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-land-pelanggan:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .btn-land-admin {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-land-admin:hover { background: rgba(255,255,255,0.08); }
+  .landing-badges { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
+  .landing-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+  .landing-float { position: absolute; border-radius: 16px; padding: 14px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+  .lf1 { top: 12%; left: 8%; }
+  .lf2 { bottom: 15%; right: 6%; }
+  .lf-label { font-size: 10px; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .lf-val { font-size: 20px; font-weight: 700; color: #fff; }
+  .lf-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+  /* ── APP SHELL ── */
+  #app-shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w); background: var(--navy); flex-shrink: 0;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .sidebar-logo-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .sidebar-logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .sidebar-logo-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+  .sidebar-section { padding: 16px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; margin: 1px 8px; border-radius: 8px;
+    font-size: 13px; color: rgba(255,255,255,0.55); cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+  .nav-item.active { background: rgba(37,99,235,0.3); color: #fff; font-weight: 500; }
+  .nav-item .nav-icon { font-size: 16px; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--red); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+  .sidebar-user {
+    margin-top: auto; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .user-name { font-size: 12px; font-weight: 500; color: #fff; }
+  .user-role { font-size: 10px; color: rgba(255,255,255,0.4); }
+  .btn-logout { margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.3); cursor: pointer; font-size: 16px; padding: 4px; border-radius: 6px; }
+  .btn-logout:hover { color: var(--red); background: rgba(233,69,96,0.1); }
+
+  /* MAIN */
+  .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .topbar {
+    height: var(--header-h); background: var(--surface); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0;
+  }
+  .topbar-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .topbar-search {
+    display: flex; align-items: center; gap: 8px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-size: 13px;
+  }
+  .topbar-search input { background: none; border: none; outline: none; font-size: 13px; color: var(--text); width: 160px; }
+  .topbar-search input::placeholder { color: var(--text-soft); }
+  .topbar-icon { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; color: var(--text-mid); position: relative; }
+  .topbar-icon:hover { background: var(--bg); }
+  .notif-dot { position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); border: 2px solid var(--surface); }
+  .page-content { flex: 1; overflow-y: auto; padding: 24px; }
+
+  /* ── COMPONENTS ── */
+  .page-header { margin-bottom: 24px; }
+  .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+  .page-header p { font-size: 13px; color: var(--text-mid); margin-top: 4px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .stat-card.c-blue::before { background: var(--blue); }
+  .stat-card.c-red::before { background: var(--red); }
+  .stat-card.c-amber::before { background: var(--amber); }
+  .stat-card.c-green::before { background: var(--green); }
+  .stat-top { display: flex; align-items: center; justify-content: space-between; }
+  .stat-label { font-size: 12px; font-weight: 500; color: var(--text-mid); }
+  .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .stat-icon.blue { background: var(--blue-soft); }
+  .stat-icon.red { background: var(--red-soft); }
+  .stat-icon.amber { background: var(--amber-soft); }
+  .stat-icon.green { background: var(--green-soft); }
+  .stat-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); }
+  .stat-trend { font-size: 11px; color: var(--text-soft); }
+  .stat-trend span { color: var(--green); font-weight: 500; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .card-body { padding: 20px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-open { background: var(--blue-soft); color: var(--blue); }
+  .badge-progress { background: var(--amber-soft); color: var(--amber); }
+  .badge-closed { background: var(--green-soft); color: var(--green); }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { border-bottom: 1px solid var(--border); }
+  thead th { padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; cursor: pointer; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  tbody td { padding: 12px 16px; font-size: 13px; color: var(--text); }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: #1D4ED8; }
+  .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { background: var(--bg); }
+  .btn-danger { background: var(--red-soft); color: var(--red); border: 1px solid rgba(233,69,96,0.2); }
+  .btn-danger:hover { background: rgba(233,69,96,0.15); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .form-control {
+    width: 100%; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    font-size: 14px; color: var(--text); outline: none;
+    font-family: 'Inter', sans-serif; transition: border-color 0.15s;
+  }
+  .form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  select.form-control { cursor: pointer; }
+  textarea.form-control { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  .category-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .cat-pill {
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border); color: var(--text-mid); cursor: pointer;
+    transition: all 0.15s; background: var(--surface);
+  }
+  .cat-pill:hover { border-color: var(--blue); color: var(--blue); }
+  .cat-pill.selected { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+
+  /* Charts */
+  .chart-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .chart-bar-label { font-size: 12px; color: var(--text-mid); width: 70px; flex-shrink: 0; }
+  .chart-bar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .chart-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .chart-bar-count { font-size: 12px; font-weight: 600; color: var(--text); width: 30px; text-align: right; }
+
+  .donut-wrap { display: flex; align-items: center; gap: 24px; }
+  .donut-legend { display: flex; flex-direction: column; gap: 10px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .ticket-detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+  .ticket-id { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
+  .ticket-meta { display: flex; flex-direction: column; gap: 10px; }
+  .meta-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .meta-key { color: var(--text-soft); width: 100px; flex-shrink: 0; }
+  .meta-val { color: var(--text); font-weight: 500; }
+
+  .chat-thread { display: flex; flex-direction: column; gap: 16px; }
+  .chat-msg { display: flex; gap: 12px; }
+  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .chat-bubble { flex: 1; }
+  .chat-name { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 4px; }
+  .chat-text { background: var(--bg); border-radius: 0 12px 12px 12px; padding: 12px 14px; font-size: 13px; line-height: 1.6; color: var(--text); }
+  .chat-msg.admin .chat-text { background: var(--blue-soft); color: var(--navy); border-radius: 12px 0 12px 12px; }
+  .chat-time { font-size: 10px; color: var(--text-soft); margin-top: 4px; }
+  .chat-msg.admin { flex-direction: row-reverse; }
+  .chat-msg.admin .chat-bubble { text-align: right; }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 48px 24px; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .empty-desc { font-size: 13px; color: var(--text-mid); margin-bottom: 20px; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 16px; padding-bottom: 20px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--border); }
+  .tl-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--surface); }
+  .tl-dot.blue { border-color: var(--blue); color: var(--blue); }
+  .tl-dot.amber { border-color: var(--amber); color: var(--amber); }
+  .tl-dot.green { border-color: var(--green); color: var(--green); }
+  .tl-dot.red { border-color: var(--red); color: var(--red); }
+  .tl-content { flex: 1; padding-top: 4px; }
+  .tl-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .tl-time { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+  .tl-desc { font-size: 12px; color: var(--text-mid); margin-top: 4px; line-height: 1.5; }
+
+  .progress-bar-wrap { margin-bottom: 16px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; }
+
+  .crm-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--green-soft); color: var(--green); border: 1px solid rgba(5,150,105,0.2); }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .grid-2col { grid-template-columns: 1fr; }
+    .grid-3col { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2); opacity: 0; transform: translateY(8px);
+    transition: all 0.3s;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  PAGE: LANDING                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-landing">
+  <div class="landing-grid"></div>
+  
+  <div class="landing-float lf1">
+    <div class="lf-label">Total Tiket Bulan Ini</div>
+    <div class="lf-val">128</div>
+    <div class="lf-sub">↑ 12% dari bulan lalu</div>
+  </div>
+  
+  <div class="landing-float lf2">
+    <div class="lf-label">Tingkat Penyelesaian</div>
+    <div class="lf-val">94%</div>
+    <div class="lf-sub">≤ 24 jam rata-rata</div>
+  </div>
+
+  <div class="landing-card">
+    <div class="logo-ring">📦</div>
+    <div class="landing-brand">CV. Indah Maju Gemilang</div>
+    <div class="landing-title">CRM Helpdesk<br>ATK Sekolah</div>
+    <div class="landing-desc">Platform layanan pelanggan terpadu untuk pengelolaan pengaduan, pemantauan pesanan, dan histori transaksi alat tulis kantor sekolah.</div>
+    <div class="landing-btns">
+      <button class="btn-land-pelanggan" onclick="loginAs('pelanggan')">
+        🏫 &nbsp; Masuk sebagai Pelanggan
+      </button>
+      <button class="btn-land-admin" onclick="loginAs('admin')">
+        🔐 &nbsp; Masuk sebagai Admin
+      </button>
+    </div>
+    <div class="landing-badges">
+      <span class="landing-badge">✓ Ticket Management</span>
+      <span class="landing-badge">✓ Customer DB</span>
+      <span class="landing-badge">✓ Complaint Tracking</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  APP SHELL                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="app-shell" class="hidden">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">📦</div>
+      <div>
+        <div class="sidebar-logo-text">IMG Helpdesk</div>
+        <div class="sidebar-logo-sub">ATK Sekolah</div>
+      </div>
+    </div>
+
+    <!-- Nav Pelanggan -->
+    <div id="nav-pelanggan">
+      <div class="sidebar-section">Menu</div>
+      <div class="nav-item active" onclick="goto('dash-pelanggan', this)">
+        <span class="nav-icon">🏠</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goto('buat-tiket', this)">
+        <span class="nav-icon">➕</span> Buat Tiket
+      </div>
+      <div class="nav-item" onclick="goto('riwayat', this)">
+        <span class="nav-icon">📋</span> Riwayat Tiket
+      </div>
+      <div class="nav-item" onclick="goto('profil', this)">
+        <span class="nav-icon">👤</span> Profil
+      </div>
+    </div>
+
+    <!-- Nav Admin -->
+    <div id="nav-admin" class="hidden">
+      <div class="sidebar-section">Manajemen</div>
+      <div class="nav-item active" onclick="goto('dash-admin', this)">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goto('tiket-masuk', this)">
+        <span class="nav-icon">📥</span> Tiket Masuk
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" onclick="goto('data-pelanggan', this)">
+        <span class="nav-icon">🏫</span> Data Pelanggan
+      </div>
+      <div class="sidebar-section">Analitik</div>
+      <div class="nav-item" onclick="goto('laporan', this)">
+        <span class="nav-icon">📈</span> Laporan
+      </div>
+    </div>
+
+    <div id="sidebar-user" class="sidebar-user">
+      <div class="user-avatar" id="user-initial">S</div>
+      <div>
+        <div class="user-name" id="user-display-name">SDN 01 Jakarta</div>
+        <div class="user-role" id="user-display-role">Pelanggan</div>
+      </div>
+      <button class="btn-logout" onclick="logout()" title="Keluar">⎋</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <span style="color:var(--text-soft);">🔍</span>
+          <input type="text" placeholder="Cari tiket, sekolah...">
+        </div>
+        <div class="topbar-icon">
+          🔔
+          <span class="notif-dot"></span>
+        </div>
+        <div class="topbar-icon">⚙️</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ────────────────────────────────── -->
+      <!-- DASHBOARD PELANGGAN               -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-dash-pelanggan">
+        <div class="page-header">
+          <h1>Selamat datang, SDN 01 Jakarta 👋</h1>
+          <p>Pantau status pengaduan dan riwayat layanan Anda di sini.</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card c-blue">
+            <div class="stat-top">
+              <span class="stat-label">Total Tiket</span>
+              <div class="stat-icon blue">📋</div>
+            </div>
+            <div class="stat-num">12</div>
+            <div class="stat-trend"><span>+2</span> bulan ini</div>
+          </div>
+          <div class="stat-card c-red">
+            <div class="stat-top">
+              <span class="stat-label">Open</span>
+              <div class="stat-icon red">🔴</div>
+            </div>
+            <div class="stat-num">4</div>
+            <div class="stat-trend">Menunggu respons</div>
+          </div>
+          <div class="stat-card c-amber">
+            <div class="stat-top">
+              <span class="stat-label">Progress</span>
+              <div class="stat-icon amber">🟡</div>
+            </div>
+            <div class="stat-num">3</div>
+            <div class="stat-trend">Sedang diproses</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top">
+              <span class="stat-label">Closed</span>
+              <div class="stat-icon green">✅</div>
+            </div>
+            <div class="stat-num">5</div>
+            <div class="stat-trend"><span>92%</span> resolusi</div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Tiket Aktif</span>
+              <button class="btn btn-outline btn-sm" onclick="goto('riwayat', document.querySelector('.nav-item:nth-child(3)'))">Lihat semua →</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>No. Tiket</th><th>Keluhan</th><th>Status</th><th>Tanggal</th></tr></thead>
+                <tbody>
+                  <tr onclick="openTicketDetail('T012','SDN 01 Jakarta','Produk','Barang HVS kurang 5 box dari total pesanan 20 box. Mohon segera dikirimkan kekurangannya.','Open','10 Jun 2025')">
+                    <td><strong>T012</strong></td><td>Barang kurang 5 box HVS</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>10 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T011','SDN 01 Jakarta','Pengiriman','Pengiriman sudah 7 hari belum sampai. No resi tidak bisa dilacak.','Progress','5 Jun 2025')">
+                    <td><strong>T011</strong></td><td>Pengiriman terlambat</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>5 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T010','SDN 01 Jakarta','Pembayaran','Pembayaran sudah transfer tapi status pesanan belum berubah.','Progress','1 Jun 2025')">
+                    <td><strong>T010</strong></td><td>Konfirmasi pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>1 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T009','SDN 01 Jakarta','Produk','Spidol warna yang diterima berbeda dari yang dipesan.','Closed','25 Mei 2025')">
+                    <td><strong>T009</strong></td><td>Produk salah warna</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>25 Mei</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Aktivitas Terbaru</span></div>
+            <div class="card-body">
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot blue">📥</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Tiket T012 dibuat</div>
+                    <div class="tl-time">10 Jun 2025 · 09:15</div>
+                    <div class="tl-desc">Pengaduan barang kurang telah diterima sistem.</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot amber">💬</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Admin merespons T011</div>
+                    <div class="tl-time">6 Jun 2025 · 14:30</div>
+                    <div class="tl-desc">Pengiriman ulang dijadwalkan besok pagi.</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot green">✅</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Tiket T009 diselesaikan</div>
+                    <div class="tl-time">27 Mei 2025 · 11:00</div>
+                    <div class="tl-desc">Penggantian produk sudah diterima pelanggan.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- BUAT TIKET                         -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-buat-tiket" class="hidden">
+        <div class="page-header">
+          <h1>Buat Tiket Baru</h1>
+          <p>Sampaikan kendala Anda dan tim kami akan segera menindaklanjuti.</p>
+        </div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Formulir Pengaduan</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Nama Sekolah</label>
+                <input type="text" class="form-control" value="SDN 01 Jakarta" readonly style="background:var(--bg); color:var(--text-mid);">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Judul Keluhan</label>
+                <input type="text" class="form-control" id="tiket-judul" placeholder="Contoh: Barang kurang 5 box HVS">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kategori Keluhan</label>
+                <div class="category-pills">
+                  <div class="cat-pill selected" onclick="selectCat(this)">📦 Produk</div>
+                  <div class="cat-pill" onclick="selectCat(this)">🚚 Pengiriman</div>
+                  <div class="cat-pill" onclick="selectCat(this)">💳 Pembayaran</div>
+                  <div class="cat-pill" onclick="selectCat(this)">🔧 Lainnya</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor Pesanan (opsional)</label>
+                <input type="text" class="form-control" placeholder="Contoh: ORD-2025-0123">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Deskripsi Lengkap</label>
+                <textarea class="form-control" id="tiket-desc" rows="5" placeholder="Jelaskan masalah Anda secara detail: jumlah barang, tanggal kejadian, dan langkah yang sudah dicoba..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lampiran (opsional)</label>
+                <div style="border: 2px dashed var(--border); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; background: var(--bg);" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--border)'">
+                  <div style="font-size: 28px; margin-bottom: 8px;">📎</div>
+                  <div style="font-size: 13px; color: var(--text-mid);">Klik atau seret file ke sini</div>
+                  <div style="font-size: 11px; color: var(--text-soft); margin-top: 4px;">JPG, PNG, PDF — maks. 5MB</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+                <button class="btn btn-outline" onclick="goto('dash-pelanggan', document.querySelector('.nav-item'))">Batal</button>
+                <button class="btn btn-primary" onclick="submitTiket()">📤 Kirim Tiket</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Panduan Pengisian</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">1️⃣</span>
+                  <div><strong style="color:var(--text);">Judul singkat</strong><br><span style="color:var(--text-mid);">Ringkasan masalah dalam 1 kalimat.</span></div>
+                </div>
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">2️⃣</span>
+                  <div><strong style="color:var(--text);">Pilih kategori</strong><br><span style="color:var(--text-mid);">Sesuaikan dengan jenis kendala.</span></div>
+                </div>
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">3️⃣</span>
+                  <div><strong style="color:var(--text);">Deskripsi detail</strong><br><span style="color:var(--text-mid);">Sertakan nomor pesanan dan foto bukti.</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">SLA Penanganan</span></div>
+              <div class="card-body">
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">📦 Produk</span><span style="font-size:12px; font-weight:600;">≤ 24 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:85%; background:var(--blue);"></div></div>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">🚚 Pengiriman</span><span style="font-size:12px; font-weight:600;">≤ 48 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:70%; background:var(--amber);"></div></div>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">💳 Pembayaran</span><span style="font-size:12px; font-weight:600;">≤ 12 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:95%; background:var(--green);"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- RIWAYAT TIKET                      -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-riwayat" class="hidden">
+        <div class="page-header">
+          <h1>Riwayat Tiket</h1>
+          <p>Semua pengaduan yang pernah Anda ajukan.</p>
+        </div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <span class="card-title">Semua Tiket (12)</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <select class="form-control" style="width:140px; padding:6px 10px;">
+                <option>Semua Status</option>
+                <option>Open</option>
+                <option>Progress</option>
+                <option>Closed</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="goto('buat-tiket', document.querySelectorAll('.nav-item')[1])">+ Buat Tiket</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No. Tiket</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Dibuat</th><th>Terakhir Update</th></tr></thead>
+              <tbody>
+                <tr onclick="openTicketDetail('T012','SDN 01 Jakarta','Produk','Barang HVS kurang 5 box dari total pesanan 20 box.','Open','10 Jun 2025')"><td><strong>T012</strong></td><td>Barang HVS kurang 5 box</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>10 Jun 2025</td><td>10 Jun 2025</td></tr>
+                <tr onclick="openTicketDetail('T011','SDN 01 Jakarta','Pengiriman','Pengiriman sudah 7 hari belum sampai.','Progress','5 Jun 2025')"><td><strong>T011</strong></td><td>Pengiriman terlambat 7 hari</td><td>Pengiriman</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>5 Jun 2025</td><td>6 Jun 2025</td></tr>
+                <tr onclick="openTicketDetail('T010','SDN 01 Jakarta','Pembayaran','Pembayaran sudah transfer tapi status belum berubah.','Progress','1 Jun 2025')"><td><strong>T010</strong></td><td>Konfirmasi pembayaran tertunda</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>1 Jun 2025</td><td>2 Jun 2025</td></tr>
+                <tr onclick="openTicketDetail('T009','SDN 01 Jakarta','Produk','Spidol warna yang diterima berbeda dari pesanan.','Closed','25 Mei 2025')"><td><strong>T009</strong></td><td>Produk salah warna</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>25 Mei 2025</td><td>27 Mei 2025</td></tr>
+                <tr onclick="openTicketDetail('T008','SDN 01 Jakarta','Pengiriman','Alamat pengiriman salah input di sistem.','Closed','15 Mei 2025')"><td><strong>T008</strong></td><td>Alamat pengiriman salah</td><td>Pengiriman</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>15 Mei 2025</td><td>16 Mei 2025</td></tr>
+                <tr onclick="openTicketDetail('T007','SDN 01 Jakarta','Lainnya','Permintaan penggantian sales person.','Closed','3 Mei 2025')"><td><strong>T007</strong></td><td>Penggantian sales PIC</td><td>Lainnya</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>3 Mei 2025</td><td>5 Mei 2025</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- PROFIL                             -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-profil" class="hidden">
+        <div class="page-header">
+          <h1>Profil Sekolah</h1>
+          <p>Informasi akun dan histori pelanggan.</p>
+        </div>
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Data Sekolah</span>
+              <button class="btn btn-outline btn-sm">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+              <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+                <div style="width:64px; height:64px; border-radius:16px; background:var(--blue-soft); display:flex; align-items:center; justify-content:center; font-size:32px; border:2px solid var(--blue);">🏫</div>
+                <div>
+                  <div style="font-size:18px; font-weight:700; color:var(--text);">SDN 01 Jakarta</div>
+                  <div style="font-size:13px; color:var(--text-mid);">ID Pelanggan: CUST-001</div>
+                  <span class="crm-tag" style="margin-top:4px;">✓ Terverifikasi</span>
+                </div>
+              </div>
+              <div class="form-group"><label class="form-label">Email</label><input class="form-control" value="sdn01jkt@disdik.jakarta.go.id" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">No. Telepon</label><input class="form-control" value="021-8765432" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">Alamat</label><input class="form-control" value="Jl. Mawar No. 10, Kemayoran, Jakarta Pusat" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">NPSN</label><input class="form-control" value="20100101" readonly style="background:var(--bg);"></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Ringkasan Riwayat</span></div>
+              <div class="card-body">
+                <div class="stat-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+                  <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Total Tiket</span></div><div class="stat-num">12</div></div>
+                  <div class="stat-card c-green"><div class="stat-top"><span class="stat-label">Diselesaikan</span></div><div class="stat-num">9</div></div>
+                </div>
+                <hr class="section-divider">
+                <div style="font-size:13px; color:var(--text-mid); display:flex; flex-direction:column; gap:8px;">
+                  <div style="display:flex; justify-content:space-between;"><span>Bergabung sejak</span><strong style="color:var(--text);">Januari 2024</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Total transaksi</span><strong style="color:var(--text);">Rp 14.750.000</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Rata-rata respons</span><strong style="color:var(--green);">18 jam</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Rating kepuasan</span><strong style="color:var(--text);">4.8 / 5.0 ⭐</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Channel Sebelumnya</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">🛒</span> <div><div style="font-weight:500;">SIPLaH</div><div style="color:var(--text-soft); font-size:12px;">Pembelian resmi sekolah</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">💬</span> <div><div style="font-weight:500;">WhatsApp Business</div><div style="color:var(--text-soft); font-size:12px;">Komunikasi pesanan</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">🌐</span> <div><div style="font-weight:500;">Website</div><div style="color:var(--text-soft); font-size:12px;">Katalog produk</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DETAIL TIKET                       -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-detail-tiket" class="hidden">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <button class="btn btn-outline btn-sm" onclick="goBack()">← Kembali</button>
+          <span style="font-size:13px; color:var(--text-soft);">Tiket / Detail</span>
+        </div>
+        <div class="grid-2col">
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-body">
+                <div class="ticket-detail-header">
+                  <div>
+                    <div style="font-size:11px; color:var(--text-soft); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.06em;">Nomor Tiket</div>
+                    <div class="ticket-id" id="detail-id">T012</div>
+                  </div>
+                  <span class="badge badge-open" id="detail-badge" style="padding:6px 14px; font-size:13px;">Open</span>
+                </div>
+                <hr class="section-divider" style="margin: 0 0 16px;">
+                <div class="ticket-meta">
+                  <div class="meta-row"><span class="meta-key">Pelanggan</span><span class="meta-val" id="detail-pelanggan">SDN 01 Jakarta</span></div>
+                  <div class="meta-row"><span class="meta-key">Kategori</span><span class="meta-val" id="detail-kategori">Produk</span></div>
+                  <div class="meta-row"><span class="meta-key">Dibuat</span><span class="meta-val" id="detail-tanggal">10 Jun 2025</span></div>
+                </div>
+                <hr class="section-divider">
+                <div style="font-size:12px; font-weight:600; color:var(--text-mid); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Deskripsi Keluhan</div>
+                <p style="font-size:14px; line-height:1.7; color:var(--text);" id="detail-desc">Barang HVS kurang 5 box dari total pesanan 20 box.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Percakapan</span></div>
+              <div class="card-body">
+                <div class="chat-thread">
+                  <div class="chat-msg">
+                    <div class="chat-avatar" style="background:var(--navy);">S</div>
+                    <div class="chat-bubble">
+                      <div class="chat-name">SDN 01 Jakarta</div>
+                      <div class="chat-text" id="detail-chat-pelanggan">Barang kurang 5 box HVS. Mohon segera dikirimkan kekurangannya.</div>
+                      <div class="chat-time">10 Jun 2025, 09:15</div>
+                    </div>
+                  </div>
+                  <div class="chat-msg admin" id="admin-reply-block">
+                    <div class="chat-avatar" style="background:var(--blue);">A</div>
+                    <div class="chat-bubble">
+                      <div class="chat-name">Admin — Indah Maju Gemilang</div>
+                      <div class="chat-text">Terima kasih laporannya. Kekurangan barang akan kami kirimkan hari ini via JNE. No. resi akan dikirim ke WhatsApp Anda.</div>
+                      <div class="chat-time">10 Jun 2025, 11:30</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Riwayat Status</span></div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="tl-item">
+                    <div class="tl-dot blue">📥</div>
+                    <div class="tl-content"><div class="tl-title">Tiket dibuat</div><div class="tl-time">10 Jun, 09:15</div><div class="tl-desc">Tiket masuk ke sistem antrian.</div></div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-dot amber">👀</div>
+                    <div class="tl-content"><div class="tl-title">Ditinjau admin</div><div class="tl-time">10 Jun, 10:00</div><div class="tl-desc">Admin Rizky membuka tiket.</div></div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-dot blue">💬</div>
+                    <div class="tl-content"><div class="tl-title">Respons dikirim</div><div class="tl-time">10 Jun, 11:30</div><div class="tl-desc">Konfirmasi pengiriman ulang.</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Info Terkait</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">No. Pesanan</span><strong>ORD-2025-0234</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">Nilai Pesanan</span><strong>Rp 1.850.000</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">PIC Admin</span><strong>Rizky Pratama</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">Prioritas</span><span class="badge badge-open">Normal</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DASHBOARD ADMIN                    -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-dash-admin" class="hidden">
+        <div class="page-header">
+          <h1>Dashboard Admin 📊</h1>
+          <p>Pantau seluruh tiket dan performa layanan pelanggan.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card c-blue">
+            <div class="stat-top"><span class="stat-label">Total Tiket</span><div class="stat-icon blue">📋</div></div>
+            <div class="stat-num">50</div>
+            <div class="stat-trend"><span>+8</span> minggu ini</div>
+          </div>
+          <div class="stat-card c-red">
+            <div class="stat-top"><span class="stat-label">Open</span><div class="stat-icon red">🔴</div></div>
+            <div class="stat-num">10</div>
+            <div class="stat-trend">Perlu ditindaklanjuti</div>
+          </div>
+          <div class="stat-card c-amber">
+            <div class="stat-top"><span class="stat-label">Progress</span><div class="stat-icon amber">🟡</div></div>
+            <div class="stat-num">15</div>
+            <div class="stat-trend">Sedang diproses</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top"><span class="stat-label">Closed</span><div class="stat-icon green">✅</div></div>
+            <div class="stat-num">25</div>
+            <div class="stat-trend"><span>50%</span> dari total</div>
+          </div>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Tiket Masuk Terbaru</span>
+              <button class="btn btn-outline btn-sm" onclick="goto('tiket-masuk', document.querySelectorAll('#nav-admin .nav-item')[1])">Lihat semua →</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>No. Tiket</th><th>Sekolah</th><th>Kategori</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr onclick="openTicketDetail('T050','SMPN 3 Bekasi','Pengiriman','Barang belum tiba setelah 10 hari.','Open','17 Jun 2025')"><td><strong>T050</strong></td><td>SMPN 3 Bekasi</td><td>Pengiriman</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td></tr>
+                  <tr onclick="openTicketDetail('T049','SDN 5 Depok','Produk','Tipe kertas tidak sesuai spesifikasi.','Open','16 Jun 2025')"><td><strong>T049</strong></td><td>SDN 5 Depok</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td></tr>
+                  <tr onclick="openTicketDetail('T048','MTs Nurul Huda','Pembayaran','Invoice belum diterima setelah 3 hari.','Progress','15 Jun 2025')"><td><strong>T048</strong></td><td>MTs Nurul Huda</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td></tr>
+                  <tr onclick="openTicketDetail('T047','SDN 12 Tangerang','Produk','Kelebihan pengiriman 2 rim kertas.','Closed','14 Jun 2025')"><td><strong>T047</strong></td><td>SDN 12 Tangerang</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Performa Tim</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Open</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:20%; background:var(--red);"></div></div>
+                <span class="chart-bar-count">10</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Progress</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:30%; background:var(--amber);"></div></div>
+                <span class="chart-bar-count">15</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Closed</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:50%; background:var(--green);"></div></div>
+                <span class="chart-bar-count">25</span>
+              </div>
+              <hr class="section-divider">
+              <div style="font-size:13px; display:flex; flex-direction:column; gap:10px; color:var(--text-mid);">
+                <div style="display:flex; justify-content:space-between;"><span>Rata-rata waktu respons</span><strong style="color:var(--green);">3.2 jam</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Tingkat kepuasan</span><strong style="color:var(--text);">4.7 / 5.0 ⭐</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Tiket terlewat SLA</span><strong style="color:var(--red);">2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Database Pelanggan Aktif</span>
+            <button class="btn btn-outline btn-sm" onclick="goto('data-pelanggan', document.querySelectorAll('#nav-admin .nav-item')[2])">Lihat semua →</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Sekolah</th><th>Kota</th><th>Total Tiket</th><th>Status Terakhir</th><th>Transaksi</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SDN 01 Jakarta</strong></td><td>Jakarta</td><td>12</td><td><span class="badge badge-open">Open</span></td><td>Rp 14.750.000</td></tr>
+                <tr><td><strong>SMPN 3 Bekasi</strong></td><td>Bekasi</td><td>8</td><td><span class="badge badge-open">Open</span></td><td>Rp 9.200.000</td></tr>
+                <tr><td><strong>SDN 5 Depok</strong></td><td>Depok</td><td>5</td><td><span class="badge badge-progress">Progress</span></td><td>Rp 6.500.000</td></tr>
+                <tr><td><strong>MTs Nurul Huda</strong></td><td>Bogor</td><td>3</td><td><span class="badge badge-closed">Closed</span></td><td>Rp 4.100.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- TIKET MASUK (ADMIN)                -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-tiket-masuk" class="hidden">
+        <div class="page-header">
+          <h1>Tiket Masuk</h1>
+          <p>Kelola dan respons semua pengaduan pelanggan.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Antrian Tiket (50)</span>
+            <div style="display:flex; gap:8px;">
+              <select class="form-control" style="width:140px; padding:6px 10px;"><option>Semua Status</option><option>Open</option><option>Progress</option><option>Closed</option></select>
+              <select class="form-control" style="width:140px; padding:6px 10px;"><option>Semua Kategori</option><option>Produk</option><option>Pengiriman</option><option>Pembayaran</option></select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No. Tiket</th><th>Sekolah</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Dibuat</th><th>PIC</th></tr></thead>
+              <tbody>
+                <tr onclick="openTicketDetail('T050','SMPN 3 Bekasi','Pengiriman','Barang belum tiba setelah 10 hari.','Open','17 Jun 2025')"><td><strong>T050</strong></td><td>SMPN 3 Bekasi</td><td>Barang belum tiba</td><td>Pengiriman</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>17 Jun</td><td style="color:var(--text-soft);">—</td></tr>
+                <tr onclick="openTicketDetail('T049','SDN 5 Depok','Produk','Tipe kertas tidak sesuai spesifikasi.','Open','16 Jun 2025')"><td><strong>T049</strong></td><td>SDN 5 Depok</td><td>Kertas tidak sesuai spek</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>16 Jun</td><td style="color:var(--text-soft);">—</td></tr>
+                <tr onclick="openTicketDetail('T048','MTs Nurul Huda','Pembayaran','Invoice belum diterima setelah 3 hari.','Progress','15 Jun 2025')"><td><strong>T048</strong></td><td>MTs Nurul Huda</td><td>Invoice belum diterima</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>15 Jun</td><td>Rizky</td></tr>
+                <tr onclick="openTicketDetail('T047','SDN 12 Tangerang','Produk','Kelebihan pengiriman 2 rim kertas.','Closed','14 Jun 2025')"><td><strong>T047</strong></td><td>SDN 12 Tangerang</td><td>Kelebihan pengiriman</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>14 Jun</td><td>Sari</td></tr>
+                <tr onclick="openTicketDetail('T046','SMAN 2 Bogor','Lainnya','Permintaan jadwal kunjungan sales.','Closed','13 Jun 2025')"><td><strong>T046</strong></td><td>SMAN 2 Bogor</td><td>Jadwal kunjungan sales</td><td>Lainnya</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>13 Jun</td><td>Budi</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DATA PELANGGAN (ADMIN)             -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-data-pelanggan" class="hidden">
+        <div class="page-header">
+          <h1>Data Pelanggan</h1>
+          <p>Database sekolah yang terdaftar sebagai pelanggan.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Semua Pelanggan (42 Sekolah)</span>
+            <button class="btn btn-primary btn-sm">+ Tambah Pelanggan</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Nama Sekolah</th><th>Kota</th><th>Kontak</th><th>Total Tiket</th><th>Nilai Transaksi</th><th>Rating</th></tr></thead>
+              <tbody>
+                <tr><td>CUST-001</td><td><strong>SDN 01 Jakarta</strong></td><td>Jakarta</td><td>021-8765432</td><td>12</td><td>Rp 14.750.000</td><td>⭐ 4.8</td></tr>
+                <tr><td>CUST-002</td><td><strong>SMPN 3 Bekasi</strong></td><td>Bekasi</td><td>021-9834001</td><td>8</td><td>Rp 9.200.000</td><td>⭐ 4.5</td></tr>
+                <tr><td>CUST-003</td><td><strong>SDN 5 Depok</strong></td><td>Depok</td><td>021-7762311</td><td>5</td><td>Rp 6.500.000</td><td>⭐ 4.6</td></tr>
+                <tr><td>CUST-004</td><td><strong>MTs Nurul Huda</strong></td><td>Bogor</td><td>0251-334422</td><td>3</td><td>Rp 4.100.000</td><td>⭐ 5.0</td></tr>
+                <tr><td>CUST-005</td><td><strong>SMAN 2 Bogor</strong></td><td>Bogor</td><td>0251-441122</td><td>7</td><td>Rp 11.300.000</td><td>⭐ 4.7</td></tr>
+                <tr><td>CUST-006</td><td><strong>SDN 12 Tangerang</strong></td><td>Tangerang</td><td>021-5532211</td><td>4</td><td>Rp 5.800.000</td><td>⭐ 4.4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- LAPORAN (ADMIN)                    -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-laporan" class="hidden">
+        <div class="page-header">
+          <h1>Laporan & Analitik</h1>
+          <p>Ringkasan performa layanan — Juni 2025</p>
+        </div>
+
+        <div class="stat-grid" style="margin-bottom:20px;">
+          <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Total Tiket</span><div class="stat-icon blue">📋</div></div><div class="stat-num">50</div><div class="stat-trend"><span>+18%</span> vs bulan lalu</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><span class="stat-label">Resolusi Rate</span><div class="stat-icon green">✅</div></div><div class="stat-num">94%</div><div class="stat-trend">Target: 90%</div></div>
+          <div class="stat-card c-amber"><div class="stat-top"><span class="stat-label">Avg. Respons</span><div class="stat-icon amber">⏱</div></div><div class="stat-num">3.2h</div><div class="stat-trend">SLA: ≤ 24 jam</div></div>
+          <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Kepuasan</span><div class="stat-icon blue">⭐</div></div><div class="stat-num">4.7</div><div class="stat-trend">dari 5.0</div></div>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Distribusi Tiket per Kategori</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Produk</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:44%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">22</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pengiriman</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:32%; background:var(--amber);"></div></div>
+                <span class="chart-bar-count">16</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pembayaran</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:14%; background:var(--red);"></div></div>
+                <span class="chart-bar-count">7</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Lainnya</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:10%; background:#94A3B8;"></div></div>
+                <span class="chart-bar-count">5</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Tren Tiket per Minggu</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 1</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:60%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">12</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 2</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:50%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">10</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 3</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:70%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">14</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 4</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:70%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">14</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3col">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Performa per Admin</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Rizky Pratama</strong><div style="font-size:11px; color:var(--text-soft);">Senior Support</div></div>
+                <div style="text-align:right;"><strong>22 tiket</strong><div style="font-size:11px; color:var(--green);">2.8 jam avg</div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Sari Wulandari</strong><div style="font-size:11px; color:var(--text-soft);">Support</div></div>
+                <div style="text-align:right;"><strong>18 tiket</strong><div style="font-size:11px; color:var(--green);">3.5 jam avg</div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Budi Santoso</strong><div style="font-size:11px; color:var(--text-soft);">Junior Support</div></div>
+                <div style="text-align:right;"><strong>10 tiket</strong><div style="font-size:11px; color:var(--amber);">5.1 jam avg</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Sekolah Paling Aktif</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SDN 01 Jakarta</strong><span class="badge badge-open">12 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SMPN 3 Bekasi</strong><span class="badge badge-progress">8 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SMAN 2 Bogor</strong><span class="badge badge-progress">7 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SDN 5 Depok</strong><span class="badge badge-closed">5 tiket</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Integrasi CRM Aktif</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Ticket Management</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Customer Database</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Complaint Tracking</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Customer History</div>
+              <div style="margin-top:6px; font-size:12px; color:var(--text-soft);">Channel: SIPLaH · WhatsApp · Website · Instagram</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Tiket berhasil dikirim!</div>
+
+<script>
+  let currentRole = 'pelanggan';
+  let prevPage = 'dash-pelanggan';
+
+  function loginAs(role) {
+    currentRole = role;
+    document.getElementById('page-landing').classList.add('hidden');
+    document.getElementById('app-shell').classList.remove('hidden');
+
+    if (role === 'admin') {
+      document.getElementById('nav-pelanggan').classList.add('hidden');
+      document.getElementById('nav-admin').classList.remove('hidden');
+      document.getElementById('user-initial').textContent = 'A';
+      document.getElementById('user-display-name').textContent = 'Admin Rizky';
+      document.getElementById('user-display-role').textContent = 'Administrator';
+      showPage('dash-admin');
+      document.querySelector('#nav-admin .nav-item').classList.add('active');
+    } else {
+      document.getElementById('nav-admin').classList.add('hidden');
+      document.getElementById('nav-pelanggan').classList.remove('hidden');
+      document.getElementById('user-initial').textContent = 'S';
+      document.getElementById('user-display-name').textContent = 'SDN 01 Jakarta';
+      document.getElementById('user-display-role').textContent = 'Pelanggan';
+      showPage('dash-pelanggan');
+      document.querySelector('#nav-pelanggan .nav-item').classList.add('active');
+    }
+  }
+
+  function showPage(id) {
+    document.querySelectorAll('.page-content > div').forEach(p => p.classList.add('hidden'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.remove('hidden');
+
+    const titles = {
+      'dash-pelanggan': 'Dashboard',
+      'buat-tiket': 'Buat Tiket',
+      'riwayat': 'Riwayat Tiket',
+      'profil': 'Profil Saya',
+      'detail-tiket': 'Detail Tiket',
+      'dash-admin': 'Dashboard Admin',
+      'tiket-masuk': 'Tiket Masuk',
+      'data-pelanggan': 'Data Pelanggan',
+      'laporan': 'Laporan & Analitik',
+    };
+    document.getElementById('topbar-title').textContent = titles[id] || id;
+  }
+
+  function goto(id, navEl) {
+    prevPage = id;
+    showPage(id);
+    const navContainer = currentRole === 'admin' ? document.getElementById('nav-admin') : document.getElementById('nav-pelanggan');
+    navContainer.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    if (navEl && navEl.classList) navEl.classList.add('active');
+  }
+
+  function openTicketDetail(id, pelanggan, kategori, desc, status, tanggal) {
+    prevPage = currentRole === 'admin' ? 'tiket-masuk' : 'riwayat';
+    document.getElementById('detail-id').textContent = id;
+    document.getElementById('detail-pelanggan').textContent = pelanggan;
+    document.getElementById('detail-kategori').textContent = kategori;
+    document.getElementById('detail-desc').textContent = desc;
+    document.getElementById('detail-tanggal').textContent = tanggal;
+    document.getElementById('detail-chat-pelanggan').textContent = desc;
+
+    const badge = document.getElementById('detail-badge');
+    badge.className = 'badge ' + (status === 'Open' ? 'badge-open' : status === 'Progress' ? 'badge-progress' : 'badge-closed');
+    badge.innerHTML = '<span class="badge-dot"></span>' + status;
+
+    showPage('detail-tiket');
+  }
+
+  function goBack() {
+    showPage(prevPage);
+  }
+
+  function logout() {
+    document.getElementById('app-shell').classList.add('hidden');
+    document.getElementById('page-landing').classList.remove('hidden');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  }
+
+  function selectCat(el) {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function submitTiket() {
+    const judul = document.getElementById('tiket-judul').value.trim();
+    const desc = document.getElementById('tiket-desc').value.trim();
+    if (!judul || !desc) {
+      showToast('⚠️ Judul dan deskripsi harus diisi!');
+      return;
+    }
+    document.getElementById('tiket-judul').value = '';
+    document.getElementById('tiket-desc').value = '';
+    showToast('✅ Tiket berhasil dikirim! Tim kami akan segera merespons.');
+    goto('riwayat', document.querySelectorAll('#nav-pelanggan .nav-item')[2]);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+</script>
+</body>
+</html>
