@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Helpdesk ATK — CV. Indah Maju Gemilang</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --navy: #0F3460;
+    --navy-light: #16213E;
+    --navy-mid: #1A3A5C;
+    --red: #E94560;
+    --red-soft: #FFF0F2;
+    --blue: #2563EB;
+    --blue-soft: #EFF6FF;
+    --amber: #D97706;
+    --amber-soft: #FFFBEB;
+    --green: #059669;
+    --green-soft: #ECFDF5;
+    --bg: #F0F4F8;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --border-mid: #CBD5E1;
+    --text: #0F172A;
+    --text-mid: #475569;
+    --text-soft: #94A3B8;
+    --sidebar-w: 220px;
+    --header-h: 60px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  
+  .hidden { display: none !important; }
+
+  /* ── LANDING ── */
+  #page-landing {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0F3460 0%, #16213E 50%, #0D2137 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #page-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(37,99,235,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(233,69,96,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .landing-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .landing-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 48px 56px;
+    width: 460px;
+    text-align: center;
+    position: relative; z-index: 1;
+  }
+  .logo-ring {
+    width: 76px; height: 76px; border-radius: 50%;
+    background: #FFFFFF;
+    border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; padding: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .logo-ring img { width: 100%; height: 100%; object-fit: contain; }
+  .landing-footer { margin-top: 28px; font-size: 11px; color: rgba(255,255,255,0.3); }
+  .landing-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .landing-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+  .landing-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 36px; }
+  .landing-btns { display: flex; flex-direction: column; gap: 12px; }
+  .btn-land-pelanggan {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: #fff; color: var(--navy); border: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-land-pelanggan:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .btn-land-admin {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-land-admin:hover { background: rgba(255,255,255,0.08); }
+  .landing-badges { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
+  .landing-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+  .landing-float { position: absolute; border-radius: 16px; padding: 14px 18px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+  .lf1 { top: 12%; left: 8%; }
+  .lf2 { bottom: 15%; right: 6%; }
+  .lf-label { font-size: 10px; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .lf-val { font-size: 20px; font-weight: 700; color: #fff; }
+  .lf-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+  /* ── APP SHELL ── */
+  #app-shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w); background: var(--navy); flex-shrink: 0;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .sidebar-logo-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .sidebar-logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .sidebar-logo-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+  .sidebar-section { padding: 16px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; margin: 1px 8px; border-radius: 8px;
+    font-size: 13px; color: rgba(255,255,255,0.55); cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+  .nav-item.active { background: rgba(37,99,235,0.3); color: #fff; font-weight: 500; }
+  .nav-item .nav-icon { font-size: 16px; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--red); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
+  .sidebar-user {
+    margin-top: auto; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .user-name { font-size: 12px; font-weight: 500; color: #fff; }
+  .user-role { font-size: 10px; color: rgba(255,255,255,0.4); }
+  .btn-logout { margin-left: auto; background: none; border: none; color: rgba(255,255,255,0.3); cursor: pointer; font-size: 16px; padding: 4px; border-radius: 6px; }
+  .btn-logout:hover { color: var(--red); background: rgba(233,69,96,0.1); }
+
+  /* MAIN */
+  .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .topbar {
+    height: var(--header-h); background: var(--surface); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0;
+  }
+  .topbar-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .topbar-search {
+    display: flex; align-items: center; gap: 8px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-size: 13px;
+  }
+  .topbar-search input { background: none; border: none; outline: none; font-size: 13px; color: var(--text); width: 160px; }
+  .topbar-search input::placeholder { color: var(--text-soft); }
+  .topbar-icon { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; color: var(--text-mid); position: relative; }
+  .topbar-icon:hover { background: var(--bg); }
+  .notif-dot { position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); border: 2px solid var(--surface); }
+  .page-content { flex: 1; overflow-y: auto; padding: 24px; }
+
+  /* ── COMPONENTS ── */
+  .page-header { margin-bottom: 24px; }
+  .page-header h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+  .page-header p { font-size: 13px; color: var(--text-mid); margin-top: 4px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .stat-card.c-blue::before { background: var(--blue); }
+  .stat-card.c-red::before { background: var(--red); }
+  .stat-card.c-amber::before { background: var(--amber); }
+  .stat-card.c-green::before { background: var(--green); }
+  .stat-top { display: flex; align-items: center; justify-content: space-between; }
+  .stat-label { font-size: 12px; font-weight: 500; color: var(--text-mid); }
+  .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .stat-icon.blue { background: var(--blue-soft); }
+  .stat-icon.red { background: var(--red-soft); }
+  .stat-icon.amber { background: var(--amber-soft); }
+  .stat-icon.green { background: var(--green-soft); }
+  .stat-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); }
+  .stat-trend { font-size: 11px; color: var(--text-soft); }
+  .stat-trend span { color: var(--green); font-weight: 500; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .card-body { padding: 20px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-open { background: var(--blue-soft); color: var(--blue); }
+  .badge-progress { background: var(--amber-soft); color: var(--amber); }
+  .badge-closed { background: var(--green-soft); color: var(--green); }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { border-bottom: 1px solid var(--border); }
+  thead th { padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; cursor: pointer; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  tbody td { padding: 12px 16px; font-size: 13px; color: var(--text); }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: #1D4ED8; }
+  .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { background: var(--bg); }
+  .btn-danger { background: var(--red-soft); color: var(--red); border: 1px solid rgba(233,69,96,0.2); }
+  .btn-danger:hover { background: rgba(233,69,96,0.15); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .form-control {
+    width: 100%; padding: 10px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    font-size: 14px; color: var(--text); outline: none;
+    font-family: 'Inter', sans-serif; transition: border-color 0.15s;
+  }
+  .form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  select.form-control { cursor: pointer; }
+  textarea.form-control { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  .category-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .cat-pill {
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    border: 1.5px solid var(--border); color: var(--text-mid); cursor: pointer;
+    transition: all 0.15s; background: var(--surface);
+  }
+  .cat-pill:hover { border-color: var(--blue); color: var(--blue); }
+  .cat-pill.selected { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+
+  /* Charts */
+  .chart-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .chart-bar-label { font-size: 12px; color: var(--text-mid); width: 70px; flex-shrink: 0; }
+  .chart-bar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .chart-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .chart-bar-count { font-size: 12px; font-weight: 600; color: var(--text); width: 30px; text-align: right; }
+
+  .donut-wrap { display: flex; align-items: center; gap: 24px; }
+  .donut-legend { display: flex; flex-direction: column; gap: 10px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .ticket-detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+  .ticket-id { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
+  .ticket-meta { display: flex; flex-direction: column; gap: 10px; }
+  .meta-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .meta-key { color: var(--text-soft); width: 100px; flex-shrink: 0; }
+  .meta-val { color: var(--text); font-weight: 500; }
+
+  .chat-thread { display: flex; flex-direction: column; gap: 16px; }
+  .chat-msg { display: flex; gap: 12px; }
+  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .chat-bubble { flex: 1; }
+  .chat-name { font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 4px; }
+  .chat-text { background: var(--bg); border-radius: 0 12px 12px 12px; padding: 12px 14px; font-size: 13px; line-height: 1.6; color: var(--text); }
+  .chat-msg.admin .chat-text { background: var(--blue-soft); color: var(--navy); border-radius: 12px 0 12px 12px; }
+  .chat-time { font-size: 10px; color: var(--text-soft); margin-top: 4px; }
+  .chat-msg.admin { flex-direction: row-reverse; }
+  .chat-msg.admin .chat-bubble { text-align: right; }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 48px 24px; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .empty-desc { font-size: 13px; color: var(--text-mid); margin-bottom: 20px; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 16px; padding-bottom: 20px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--border); }
+  .tl-dot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--surface); }
+  .tl-dot.blue { border-color: var(--blue); color: var(--blue); }
+  .tl-dot.amber { border-color: var(--amber); color: var(--amber); }
+  .tl-dot.green { border-color: var(--green); color: var(--green); }
+  .tl-dot.red { border-color: var(--red); color: var(--red); }
+  .tl-content { flex: 1; padding-top: 4px; }
+  .tl-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .tl-time { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+  .tl-desc { font-size: 12px; color: var(--text-mid); margin-top: 4px; line-height: 1.5; }
+
+  .progress-bar-wrap { margin-bottom: 16px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; }
+
+  .crm-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--green-soft); color: var(--green); border: 1px solid rgba(5,150,105,0.2); }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .grid-2col { grid-template-columns: 1fr; }
+    .grid-3col { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2); opacity: 0; transform: translateY(8px);
+    transition: all 0.3s;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  PAGE: LANDING                                            -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-landing">
+  <div class="landing-grid"></div>
+  
+  <div class="landing-float lf1">
+    <div class="lf-label">Total Tiket Bulan Ini</div>
+    <div class="lf-val">128</div>
+    <div class="lf-sub">↑ 12% dari bulan lalu</div>
+  </div>
+  
+  <div class="landing-float lf2">
+    <div class="lf-label">Tingkat Penyelesaian</div>
+    <div class="lf-val">94%</div>
+    <div class="lf-sub">≤ 24 jam rata-rata</div>
+  </div>
+
+  <div class="landing-card">
+    <div class="logo-ring"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAABdKElEQVR42u29eZhd1XUlvvY59765qjRLiEnMIGYkQGKSBBiwsR3HcSlJxxmcuM2XwUkn3Rm63XFRSdr5JZ24206cbidfpna7bas8JA7GA2CVwGaUGAwSxoAwgzEIDTW98d5z9u+Pc889574qMUoM0ln+ZKSa36t39tl77bXXBgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOEVB4Cg49MEDXY4ROxw4aBjCOXbQewHj2/vVYwv2fYz8G2cetxxIeAzCMlQyMcvZi4fDshgAQ8CY66MAIATtoHLvoBSzhjfiiOljnlDEi7PcyQWSMAXAIDCEABLxOB34Mw2JxftjH1FwftxmYVx9avUB1yseUEFVkXFuhU72YSERSlgdBsqYhBDGkFNBMWkGpJuvOpNJKCRk3NXV+2G1PTohGfYL1Y089P/1s+91Aa+6fa1iaoLBeA6MhIIQAEHBgb/lhYX5ZxQP/j0Dl3IGzjinx0tOVis8VVDmbqHy0RuloQaVGheKKgICkCJIigAEmBiDMESUAzCAiAJy9GBjMjAQJNCt0SIN1OqG4N8Xc2Qn0nldaP0Ri8n6pdj/8dHf7M+8AunMFhHFs0aOADr/FEAACXuGhH8c6uR7rNWE0P0CbgOqJg2vPkDzvogiNS8Gls4WoHl0TtbLkGBoSCoyEGUwamrUGkTnR9lY2h56YAMqDAMBEICamLDJoghBMACAkCSIAJQhAMKTWSKiLtu60CenTipsPAM3vdNKJ27/Xvv2hDwAdv2wYx7hYjy0qZAYhAAS8CDZhWA733fRbaouOGKKz1kkefKekgYukbBzXoCo0IvQAJEihmRWgs8MLYsDc6QQCsv9jc7LZ1OyEwmHMooF7CzHYfHr+gcwgMDEYEMwkhADJEiRKIAikmOE2lGo9zjx9Zw8T35rWT4xf2tn5lP/4AGAjxjRCMAgBIMBP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" alt="Logo CV. Indah Maju Gemilang"></div>
+    <div class="landing-brand">CV. Indah Maju Gemilang</div>
+    <div class="landing-title">CRM Helpdesk<br>ATK Sekolah</div>
+    <div class="landing-desc">Platform layanan pelanggan terpadu untuk pengelolaan pengaduan, pemantauan pesanan, dan histori transaksi alat tulis kantor sekolah.</div>
+    <div class="landing-btns">
+      <button class="btn-land-pelanggan" onclick="loginAs('pelanggan')">
+        🏫 &nbsp; Masuk sebagai Pelanggan
+      </button>
+      <button class="btn-land-admin" onclick="loginAs('admin')">
+        🔐 &nbsp; Masuk sebagai Admin
+      </button>
+    </div>
+    <div class="landing-badges">
+      <span class="landing-badge">✓ Ticket Management</span>
+      <span class="landing-badge">✓ Customer DB</span>
+      <span class="landing-badge">✓ Complaint Tracking</span>
+    </div>
+    <div class="landing-footer">© 2026 CV. Indah Maju Gemilang - CRM Helpdesk ATK</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  APP SHELL                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="app-shell" class="hidden">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">📦</div>
+      <div>
+        <div class="sidebar-logo-text">IMG Helpdesk</div>
+        <div class="sidebar-logo-sub">ATK Sekolah</div>
+      </div>
+    </div>
+
+    <!-- Nav Pelanggan -->
+    <div id="nav-pelanggan">
+      <div class="sidebar-section">Menu</div>
+      <div class="nav-item active" onclick="goto('dash-pelanggan', this)">
+        <span class="nav-icon">🏠</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goto('buat-tiket', this)">
+        <span class="nav-icon">➕</span> Buat Tiket
+      </div>
+      <div class="nav-item" onclick="goto('riwayat', this)">
+        <span class="nav-icon">📋</span> Riwayat Tiket
+      </div>
+      <div class="nav-item" onclick="goto('profil', this)">
+        <span class="nav-icon">👤</span> Profil
+      </div>
+    </div>
+
+    <!-- Nav Admin -->
+    <div id="nav-admin" class="hidden">
+      <div class="sidebar-section">Manajemen</div>
+      <div class="nav-item active" onclick="goto('dash-admin', this)">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goto('tiket-masuk', this)">
+        <span class="nav-icon">📥</span> Tiket Masuk
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" onclick="goto('komplain-pelanggan', this)">
+        <span class="nav-icon">📣</span> Komplain Pelanggan
+        <span class="nav-badge" style="background:var(--amber);">3</span>
+      </div>
+      <div class="nav-item" onclick="goto('data-pelanggan', this)">
+        <span class="nav-icon">🏫</span> Data Pelanggan
+      </div>
+      <div class="sidebar-section">Analitik</div>
+      <div class="nav-item" onclick="goto('laporan', this)">
+        <span class="nav-icon">📈</span> Laporan
+      </div>
+    </div>
+
+    <div id="sidebar-user" class="sidebar-user">
+      <div class="user-avatar" id="user-initial">S</div>
+      <div>
+        <div class="user-name" id="user-display-name">SDN 01 Jakarta</div>
+        <div class="user-role" id="user-display-role">Pelanggan</div>
+      </div>
+      <button class="btn-logout" onclick="logout()" title="Keluar">⎋</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <span style="color:var(--text-soft);">🔍</span>
+          <input type="text" placeholder="Cari tiket, sekolah...">
+        </div>
+        <div class="topbar-icon">
+          🔔
+          <span class="notif-dot"></span>
+        </div>
+        <div class="topbar-icon">⚙️</div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ────────────────────────────────── -->
+      <!-- DASHBOARD PELANGGAN               -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-dash-pelanggan">
+        <div class="page-header">
+          <h1>Selamat datang, SDN 01 Jakarta 👋</h1>
+          <p>Pantau status pengaduan dan riwayat layanan Anda di sini.</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card c-blue">
+            <div class="stat-top">
+              <span class="stat-label">Total Tiket</span>
+              <div class="stat-icon blue">📋</div>
+            </div>
+            <div class="stat-num">12</div>
+            <div class="stat-trend"><span>+2</span> bulan ini</div>
+          </div>
+          <div class="stat-card c-red">
+            <div class="stat-top">
+              <span class="stat-label">Open</span>
+              <div class="stat-icon red">🔴</div>
+            </div>
+            <div class="stat-num">4</div>
+            <div class="stat-trend">Menunggu respons</div>
+          </div>
+          <div class="stat-card c-amber">
+            <div class="stat-top">
+              <span class="stat-label">Progress</span>
+              <div class="stat-icon amber">🟡</div>
+            </div>
+            <div class="stat-num">3</div>
+            <div class="stat-trend">Sedang diproses</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top">
+              <span class="stat-label">Closed</span>
+              <div class="stat-icon green">✅</div>
+            </div>
+            <div class="stat-num">5</div>
+            <div class="stat-trend"><span>92%</span> resolusi</div>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Tiket Aktif</span>
+              <button class="btn btn-outline btn-sm" onclick="goto('riwayat', document.querySelector('.nav-item:nth-child(3)'))">Lihat semua →</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>No. Tiket</th><th>Keluhan</th><th>Status</th><th>Tanggal</th></tr></thead>
+                <tbody>
+                  <tr onclick="openTicketDetail('T012','SDN 01 Jakarta','Produk','Barang HVS kurang 5 box dari total pesanan 20 box. Mohon segera dikirimkan kekurangannya.','Open','10 Jun 2026')">
+                    <td><strong>T012</strong></td><td>Barang kurang 5 box HVS</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>10 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T011','SDN 01 Jakarta','Pengiriman','Pengiriman sudah 7 hari belum sampai. No resi tidak bisa dilacak.','Progress','5 Jun 2026')">
+                    <td><strong>T011</strong></td><td>Pengiriman terlambat</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>5 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T010','SDN 01 Jakarta','Pembayaran','Pembayaran sudah transfer tapi status pesanan belum berubah.','Progress','1 Jun 2026')">
+                    <td><strong>T010</strong></td><td>Konfirmasi pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>1 Jun</td>
+                  </tr>
+                  <tr onclick="openTicketDetail('T009','SDN 01 Jakarta','Produk','Spidol warna yang diterima berbeda dari yang dipesan.','Closed','25 Mei 2026')">
+                    <td><strong>T009</strong></td><td>Produk salah warna</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>25 Mei</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Aktivitas Terbaru</span></div>
+            <div class="card-body">
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot blue">📥</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Tiket T012 dibuat</div>
+                    <div class="tl-time">10 Jun 2026 · 09:15</div>
+                    <div class="tl-desc">Pengaduan barang kurang telah diterima sistem.</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot amber">💬</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Admin merespons T011</div>
+                    <div class="tl-time">6 Jun 2026 · 14:30</div>
+                    <div class="tl-desc">Pengiriman ulang dijadwalkan besok pagi.</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot green">✅</div>
+                  <div class="tl-content">
+                    <div class="tl-title">Tiket T009 diselesaikan</div>
+                    <div class="tl-time">27 Mei 2026 · 11:00</div>
+                    <div class="tl-desc">Penggantian produk sudah diterima pelanggan.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- BUAT TIKET                         -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-buat-tiket" class="hidden">
+        <div class="page-header">
+          <h1>Buat Tiket Baru</h1>
+          <p>Sampaikan kendala Anda dan tim kami akan segera menindaklanjuti.</p>
+        </div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:20px;">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Formulir Pengaduan</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Nama Sekolah</label>
+                <input type="text" class="form-control" value="SDN 01 Jakarta" readonly style="background:var(--bg); color:var(--text-mid);">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Judul Keluhan</label>
+                <input type="text" class="form-control" id="tiket-judul" placeholder="Contoh: Barang kurang 5 box HVS">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Kategori Keluhan</label>
+                <div class="category-pills">
+                  <div class="cat-pill selected" onclick="selectCat(this)">📦 Produk</div>
+                  <div class="cat-pill" onclick="selectCat(this)">🚚 Pengiriman</div>
+                  <div class="cat-pill" onclick="selectCat(this)">💳 Pembayaran</div>
+                  <div class="cat-pill" onclick="selectCat(this)">🔧 Lainnya</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor Pesanan (opsional)</label>
+                <input type="text" class="form-control" placeholder="Contoh: ORD-2026-0123">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Deskripsi Lengkap</label>
+                <textarea class="form-control" id="tiket-desc" rows="5" placeholder="Jelaskan masalah Anda secara detail: jumlah barang, tanggal kejadian, dan langkah yang sudah dicoba..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lampiran (opsional)</label>
+                <div style="border: 2px dashed var(--border); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; background: var(--bg);" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--border)'">
+                  <div style="font-size: 28px; margin-bottom: 8px;">📎</div>
+                  <div style="font-size: 13px; color: var(--text-mid);">Klik atau seret file ke sini</div>
+                  <div style="font-size: 11px; color: var(--text-soft); margin-top: 4px;">JPG, PNG, PDF — maks. 5MB</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+                <button class="btn btn-outline" onclick="goto('dash-pelanggan', document.querySelector('.nav-item'))">Batal</button>
+                <button class="btn btn-primary" onclick="submitTiket()">📤 Kirim Tiket</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Panduan Pengisian</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">1️⃣</span>
+                  <div><strong style="color:var(--text);">Judul singkat</strong><br><span style="color:var(--text-mid);">Ringkasan masalah dalam 1 kalimat.</span></div>
+                </div>
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">2️⃣</span>
+                  <div><strong style="color:var(--text);">Pilih kategori</strong><br><span style="color:var(--text-mid);">Sesuaikan dengan jenis kendala.</span></div>
+                </div>
+                <div style="display:flex; gap:10px; align-items:flex-start; font-size:13px;">
+                  <span style="font-size:18px;">3️⃣</span>
+                  <div><strong style="color:var(--text);">Deskripsi detail</strong><br><span style="color:var(--text-mid);">Sertakan nomor pesanan dan foto bukti.</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">SLA Penanganan</span></div>
+              <div class="card-body">
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">📦 Produk</span><span style="font-size:12px; font-weight:600;">≤ 24 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:85%; background:var(--blue);"></div></div>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">🚚 Pengiriman</span><span style="font-size:12px; font-weight:600;">≤ 48 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:70%; background:var(--amber);"></div></div>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-label"><span style="font-size:12px;">💳 Pembayaran</span><span style="font-size:12px; font-weight:600;">≤ 12 jam</span></div>
+                  <div class="progress-track"><div class="progress-fill" style="width:95%; background:var(--green);"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- RIWAYAT TIKET                      -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-riwayat" class="hidden">
+        <div class="page-header">
+          <h1>Riwayat Tiket</h1>
+          <p>Semua pengaduan yang pernah Anda ajukan.</p>
+        </div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <span class="card-title">Semua Tiket (12)</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <select class="form-control" style="width:140px; padding:6px 10px;">
+                <option>Semua Status</option>
+                <option>Open</option>
+                <option>Progress</option>
+                <option>Closed</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="goto('buat-tiket', document.querySelectorAll('.nav-item')[1])">+ Buat Tiket</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No. Tiket</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Dibuat</th><th>Terakhir Update</th></tr></thead>
+              <tbody>
+                <tr onclick="openTicketDetail('T012','SDN 01 Jakarta','Produk','Barang HVS kurang 5 box dari total pesanan 20 box.','Open','10 Jun 2026')"><td><strong>T012</strong></td><td>Barang HVS kurang 5 box</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>10 Jun 2026</td><td>10 Jun 2026</td></tr>
+                <tr onclick="openTicketDetail('T011','SDN 01 Jakarta','Pengiriman','Pengiriman sudah 7 hari belum sampai.','Progress','5 Jun 2026')"><td><strong>T011</strong></td><td>Pengiriman terlambat 7 hari</td><td>Pengiriman</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>5 Jun 2026</td><td>6 Jun 2026</td></tr>
+                <tr onclick="openTicketDetail('T010','SDN 01 Jakarta','Pembayaran','Pembayaran sudah transfer tapi status belum berubah.','Progress','1 Jun 2026')"><td><strong>T010</strong></td><td>Konfirmasi pembayaran tertunda</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>1 Jun 2026</td><td>2 Jun 2026</td></tr>
+                <tr onclick="openTicketDetail('T009','SDN 01 Jakarta','Produk','Spidol warna yang diterima berbeda dari pesanan.','Closed','25 Mei 2026')"><td><strong>T009</strong></td><td>Produk salah warna</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>25 Mei 2026</td><td>27 Mei 2026</td></tr>
+                <tr onclick="openTicketDetail('T008','SDN 01 Jakarta','Pengiriman','Alamat pengiriman salah input di sistem.','Closed','15 Mei 2026')"><td><strong>T008</strong></td><td>Alamat pengiriman salah</td><td>Pengiriman</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>15 Mei 2026</td><td>16 Mei 2026</td></tr>
+                <tr onclick="openTicketDetail('T007','SDN 01 Jakarta','Lainnya','Permintaan penggantian sales person.','Closed','3 Mei 2026')"><td><strong>T007</strong></td><td>Penggantian sales PIC</td><td>Lainnya</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>3 Mei 2026</td><td>5 Mei 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- PROFIL                             -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-profil" class="hidden">
+        <div class="page-header">
+          <h1>Profil Sekolah</h1>
+          <p>Informasi akun dan histori pelanggan.</p>
+        </div>
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Data Sekolah</span>
+              <button class="btn btn-outline btn-sm">✏️ Edit</button>
+            </div>
+            <div class="card-body">
+              <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+                <div style="width:64px; height:64px; border-radius:16px; background:var(--blue-soft); display:flex; align-items:center; justify-content:center; font-size:32px; border:2px solid var(--blue);">🏫</div>
+                <div>
+                  <div style="font-size:18px; font-weight:700; color:var(--text);">SDN 01 Jakarta</div>
+                  <div style="font-size:13px; color:var(--text-mid);">ID Pelanggan: CUST-001</div>
+                  <span class="crm-tag" style="margin-top:4px;">✓ Terverifikasi</span>
+                </div>
+              </div>
+              <div class="form-group"><label class="form-label">Email</label><input class="form-control" value="sdn01jkt@disdik.jakarta.go.id" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">No. Telepon</label><input class="form-control" value="021-8765432" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">Alamat</label><input class="form-control" value="Jl. Mawar No. 10, Kemayoran, Jakarta Pusat" readonly style="background:var(--bg);"></div>
+              <div class="form-group"><label class="form-label">NPSN</label><input class="form-control" value="20100101" readonly style="background:var(--bg);"></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Ringkasan Riwayat</span></div>
+              <div class="card-body">
+                <div class="stat-grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+                  <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Total Tiket</span></div><div class="stat-num">12</div></div>
+                  <div class="stat-card c-green"><div class="stat-top"><span class="stat-label">Diselesaikan</span></div><div class="stat-num">9</div></div>
+                </div>
+                <hr class="section-divider">
+                <div style="font-size:13px; color:var(--text-mid); display:flex; flex-direction:column; gap:8px;">
+                  <div style="display:flex; justify-content:space-between;"><span>Bergabung sejak</span><strong style="color:var(--text);">Januari 2024</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Total transaksi</span><strong style="color:var(--text);">Rp 14.750.000</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Rata-rata respons</span><strong style="color:var(--green);">18 jam</strong></div>
+                  <div style="display:flex; justify-content:space-between;"><span>Rating kepuasan</span><strong style="color:var(--text);">4.8 / 5.0 ⭐</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Channel Sebelumnya</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">🛒</span> <div><div style="font-weight:500;">SIPLaH</div><div style="color:var(--text-soft); font-size:12px;">Pembelian resmi sekolah</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">💬</span> <div><div style="font-weight:500;">WhatsApp Business</div><div style="color:var(--text-soft); font-size:12px;">Komunikasi pesanan</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px;">
+                  <span style="font-size:20px;">🌐</span> <div><div style="font-weight:500;">Website</div><div style="color:var(--text-soft); font-size:12px;">Katalog produk</div></div>
+                  <span class="crm-tag" style="margin-left:auto;">Aktif</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DETAIL TIKET                       -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-detail-tiket" class="hidden">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <button class="btn btn-outline btn-sm" onclick="goBack()">← Kembali</button>
+          <span style="font-size:13px; color:var(--text-soft);">Tiket / Detail</span>
+        </div>
+        <div class="grid-2col">
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="card-body">
+                <div class="ticket-detail-header">
+                  <div>
+                    <div style="font-size:11px; color:var(--text-soft); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.06em;">Nomor Tiket</div>
+                    <div class="ticket-id" id="detail-id">T012</div>
+                  </div>
+                  <span class="badge badge-open" id="detail-badge" style="padding:6px 14px; font-size:13px;">Open</span>
+                </div>
+                <hr class="section-divider" style="margin: 0 0 16px;">
+                <div class="ticket-meta">
+                  <div class="meta-row"><span class="meta-key">Pelanggan</span><span class="meta-val" id="detail-pelanggan">SDN 01 Jakarta</span></div>
+                  <div class="meta-row"><span class="meta-key">Kategori</span><span class="meta-val" id="detail-kategori">Produk</span></div>
+                  <div class="meta-row"><span class="meta-key">Dibuat</span><span class="meta-val" id="detail-tanggal">10 Jun 2026</span></div>
+                </div>
+                <hr class="section-divider">
+                <div style="font-size:12px; font-weight:600; color:var(--text-mid); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Deskripsi Keluhan</div>
+                <p style="font-size:14px; line-height:1.7; color:var(--text);" id="detail-desc">Barang HVS kurang 5 box dari total pesanan 20 box.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Percakapan</span></div>
+              <div class="card-body">
+                <div class="chat-thread">
+                  <div class="chat-msg">
+                    <div class="chat-avatar" style="background:var(--navy);">S</div>
+                    <div class="chat-bubble">
+                      <div class="chat-name">SDN 01 Jakarta</div>
+                      <div class="chat-text" id="detail-chat-pelanggan">Barang kurang 5 box HVS. Mohon segera dikirimkan kekurangannya.</div>
+                      <div class="chat-time">10 Jun 2026, 09:15</div>
+                    </div>
+                  </div>
+                  <div class="chat-msg admin" id="admin-reply-block">
+                    <div class="chat-avatar" style="background:var(--blue);">A</div>
+                    <div class="chat-bubble">
+                      <div class="chat-name">Admin — Indah Maju Gemilang</div>
+                      <div class="chat-text">Terima kasih laporannya. Kekurangan barang akan kami kirimkan hari ini via JNE. No. resi akan dikirim ke WhatsApp Anda.</div>
+                      <div class="chat-time">10 Jun 2026, 11:30</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Riwayat Status</span></div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="tl-item">
+                    <div class="tl-dot blue">📥</div>
+                    <div class="tl-content"><div class="tl-title">Tiket dibuat</div><div class="tl-time">10 Jun, 09:15</div><div class="tl-desc">Tiket masuk ke sistem antrian.</div></div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-dot amber">👀</div>
+                    <div class="tl-content"><div class="tl-title">Ditinjau admin</div><div class="tl-time">10 Jun, 10:00</div><div class="tl-desc">Admin Aini membuka tiket.</div></div>
+                  </div>
+                  <div class="tl-item">
+                    <div class="tl-dot blue">💬</div>
+                    <div class="tl-content"><div class="tl-title">Respons dikirim</div><div class="tl-time">10 Jun, 11:30</div><div class="tl-desc">Konfirmasi pengiriman ulang.</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Info Terkait</span></div>
+              <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">No. Pesanan</span><strong>ORD-2026-0234</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">Nilai Pesanan</span><strong>Rp 1.850.000</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">PIC Admin</span><strong>Aini Pratiwi</strong></div>
+                <div style="display:flex; justify-content:space-between; font-size:13px;"><span style="color:var(--text-mid);">Prioritas</span><span class="badge badge-open">Normal</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DASHBOARD ADMIN                    -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-dash-admin" class="hidden">
+        <div class="page-header">
+          <h1>Dashboard Admin 📊</h1>
+          <p>Pantau seluruh tiket dan performa layanan pelanggan.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card c-blue">
+            <div class="stat-top"><span class="stat-label">Total Tiket</span><div class="stat-icon blue">📋</div></div>
+            <div class="stat-num">50</div>
+            <div class="stat-trend"><span>+8</span> minggu ini</div>
+          </div>
+          <div class="stat-card c-red">
+            <div class="stat-top"><span class="stat-label">Open</span><div class="stat-icon red">🔴</div></div>
+            <div class="stat-num">10</div>
+            <div class="stat-trend">Perlu ditindaklanjuti</div>
+          </div>
+          <div class="stat-card c-amber">
+            <div class="stat-top"><span class="stat-label">Progress</span><div class="stat-icon amber">🟡</div></div>
+            <div class="stat-num">15</div>
+            <div class="stat-trend">Sedang diproses</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top"><span class="stat-label">Closed</span><div class="stat-icon green">✅</div></div>
+            <div class="stat-num">25</div>
+            <div class="stat-trend"><span>50%</span> dari total</div>
+          </div>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Tiket Masuk Terbaru</span>
+              <button class="btn btn-outline btn-sm" onclick="goto('tiket-masuk', document.querySelectorAll('#nav-admin .nav-item')[1])">Lihat semua →</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>No. Tiket</th><th>Sekolah</th><th>Kategori</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr onclick="openTicketDetail('T050','SMPN 3 Bekasi','Pengiriman','Barang belum tiba setelah 10 hari.','Open','17 Jun 2026')"><td><strong>T050</strong></td><td>SMPN 3 Bekasi</td><td>Pengiriman</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td></tr>
+                  <tr onclick="openTicketDetail('T049','SDN 5 Depok','Produk','Tipe kertas tidak sesuai spesifikasi.','Open','16 Jun 2026')"><td><strong>T049</strong></td><td>SDN 5 Depok</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td></tr>
+                  <tr onclick="openTicketDetail('T048','MTs Nurul Huda','Pembayaran','Invoice belum diterima setelah 3 hari.','Progress','15 Jun 2026')"><td><strong>T048</strong></td><td>MTs Nurul Huda</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td></tr>
+                  <tr onclick="openTicketDetail('T047','SDN 12 Tangerang','Produk','Kelebihan pengiriman 2 rim kertas.','Closed','14 Jun 2026')"><td><strong>T047</strong></td><td>SDN 12 Tangerang</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Performa Tim</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Open</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:20%; background:var(--red);"></div></div>
+                <span class="chart-bar-count">10</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Progress</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:30%; background:var(--amber);"></div></div>
+                <span class="chart-bar-count">15</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Closed</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:50%; background:var(--green);"></div></div>
+                <span class="chart-bar-count">25</span>
+              </div>
+              <hr class="section-divider">
+              <div style="font-size:13px; display:flex; flex-direction:column; gap:10px; color:var(--text-mid);">
+                <div style="display:flex; justify-content:space-between;"><span>Rata-rata waktu respons</span><strong style="color:var(--green);">3.2 jam</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Tingkat kepuasan</span><strong style="color:var(--text);">4.7 / 5.0 ⭐</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Tiket terlewat SLA</span><strong style="color:var(--red);">2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Database Pelanggan Aktif</span>
+            <button class="btn btn-outline btn-sm" onclick="goto('data-pelanggan', document.querySelectorAll('#nav-admin .nav-item')[2])">Lihat semua →</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Sekolah</th><th>Kota</th><th>Total Tiket</th><th>Status Terakhir</th><th>Transaksi</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SDN 01 Jakarta</strong></td><td>Jakarta</td><td>12</td><td><span class="badge badge-open">Open</span></td><td>Rp 14.750.000</td></tr>
+                <tr><td><strong>SMPN 3 Bekasi</strong></td><td>Bekasi</td><td>8</td><td><span class="badge badge-open">Open</span></td><td>Rp 9.200.000</td></tr>
+                <tr><td><strong>SDN 5 Depok</strong></td><td>Depok</td><td>5</td><td><span class="badge badge-progress">Progress</span></td><td>Rp 6.500.000</td></tr>
+                <tr><td><strong>MTs Nurul Huda</strong></td><td>Bogor</td><td>3</td><td><span class="badge badge-closed">Closed</span></td><td>Rp 4.100.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- TIKET MASUK (ADMIN)                -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-tiket-masuk" class="hidden">
+        <div class="page-header">
+          <h1>Tiket Masuk</h1>
+          <p>Kelola dan respons semua pengaduan pelanggan.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Antrian Tiket (50)</span>
+            <div style="display:flex; gap:8px;">
+              <select class="form-control" style="width:140px; padding:6px 10px;"><option>Semua Status</option><option>Open</option><option>Progress</option><option>Closed</option></select>
+              <select class="form-control" style="width:140px; padding:6px 10px;"><option>Semua Kategori</option><option>Produk</option><option>Pengiriman</option><option>Pembayaran</option></select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>No. Tiket</th><th>Sekolah</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Dibuat</th><th>PIC</th></tr></thead>
+              <tbody>
+                <tr onclick="openTicketDetail('T050','SMPN 3 Bekasi','Pengiriman','Barang belum tiba setelah 10 hari.','Open','17 Jun 2026')"><td><strong>T050</strong></td><td>SMPN 3 Bekasi</td><td>Barang belum tiba</td><td>Pengiriman</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>17 Jun</td><td style="color:var(--text-soft);">—</td></tr>
+                <tr onclick="openTicketDetail('T049','SDN 5 Depok','Produk','Tipe kertas tidak sesuai spesifikasi.','Open','16 Jun 2026')"><td><strong>T049</strong></td><td>SDN 5 Depok</td><td>Kertas tidak sesuai spek</td><td>Produk</td><td><span class="badge badge-open"><span class="badge-dot"></span>Open</span></td><td>16 Jun</td><td style="color:var(--text-soft);">—</td></tr>
+                <tr onclick="openTicketDetail('T048','MTs Nurul Huda','Pembayaran','Invoice belum diterima setelah 3 hari.','Progress','15 Jun 2026')"><td><strong>T048</strong></td><td>MTs Nurul Huda</td><td>Invoice belum diterima</td><td>Pembayaran</td><td><span class="badge badge-progress"><span class="badge-dot"></span>Progress</span></td><td>15 Jun</td><td>Aini</td></tr>
+                <tr onclick="openTicketDetail('T047','SDN 12 Tangerang','Produk','Kelebihan pengiriman 2 rim kertas.','Closed','14 Jun 2026')"><td><strong>T047</strong></td><td>SDN 12 Tangerang</td><td>Kelebihan pengiriman</td><td>Produk</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>14 Jun</td><td>Sari</td></tr>
+                <tr onclick="openTicketDetail('T046','SMAN 2 Bogor','Lainnya','Permintaan jadwal kunjungan sales.','Closed','13 Jun 2026')"><td><strong>T046</strong></td><td>SMAN 2 Bogor</td><td>Jadwal kunjungan sales</td><td>Lainnya</td><td><span class="badge badge-closed"><span class="badge-dot"></span>Closed</span></td><td>13 Jun</td><td>Budi</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- DATA PELANGGAN (ADMIN)             -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-data-pelanggan" class="hidden">
+        <div class="page-header">
+          <h1>Data Pelanggan</h1>
+          <p>Database sekolah yang terdaftar sebagai pelanggan.</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Semua Pelanggan (42 Sekolah)</span>
+            <button class="btn btn-primary btn-sm">+ Tambah Pelanggan</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Nama Sekolah</th><th>Kota</th><th>Kontak</th><th>Total Tiket</th><th>Nilai Transaksi</th><th>Rating</th></tr></thead>
+              <tbody>
+                <tr><td>CUST-001</td><td><strong>SDN 01 Jakarta</strong></td><td>Jakarta</td><td>021-8765432</td><td>12</td><td>Rp 14.750.000</td><td>⭐ 4.8</td></tr>
+                <tr><td>CUST-002</td><td><strong>SMPN 3 Bekasi</strong></td><td>Bekasi</td><td>021-9834001</td><td>8</td><td>Rp 9.200.000</td><td>⭐ 4.5</td></tr>
+                <tr><td>CUST-003</td><td><strong>SDN 5 Depok</strong></td><td>Depok</td><td>021-7762311</td><td>5</td><td>Rp 6.500.000</td><td>⭐ 4.6</td></tr>
+                <tr><td>CUST-004</td><td><strong>MTs Nurul Huda</strong></td><td>Bogor</td><td>0251-334422</td><td>3</td><td>Rp 4.100.000</td><td>⭐ 5.0</td></tr>
+                <tr><td>CUST-005</td><td><strong>SMAN 2 Bogor</strong></td><td>Bogor</td><td>0251-441122</td><td>7</td><td>Rp 11.300.000</td><td>⭐ 4.7</td></tr>
+                <tr><td>CUST-006</td><td><strong>SDN 12 Tangerang</strong></td><td>Tangerang</td><td>021-5532211</td><td>4</td><td>Rp 5.800.000</td><td>⭐ 4.4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- KOMPLAIN PELANGGAN (ADMIN)         -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-komplain-pelanggan" class="hidden">
+        <div class="page-header">
+          <h1>Komplain Pelanggan 📣</h1>
+          <p>Kelola dan tindaklanjuti semua komplain yang masuk dari pelanggan.</p>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-grid" style="margin-bottom:20px;">
+          <div class="stat-card c-red">
+            <div class="stat-top"><span class="stat-label">Belum Ditangani</span><div class="stat-icon red">🔴</div></div>
+            <div class="stat-num">3</div>
+            <div class="stat-trend">Perlu respons segera</div>
+          </div>
+          <div class="stat-card c-amber">
+            <div class="stat-top"><span class="stat-label">Sedang Diproses</span><div class="stat-icon amber">🟡</div></div>
+            <div class="stat-num">5</div>
+            <div class="stat-trend">Dalam penanganan</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top"><span class="stat-label">Selesai Bulan Ini</span><div class="stat-icon green">✅</div></div>
+            <div class="stat-num">18</div>
+            <div class="stat-trend"><span>94%</span> tingkat resolusi</div>
+          </div>
+          <div class="stat-card c-blue">
+            <div class="stat-top"><span class="stat-label">Avg. Penyelesaian</span><div class="stat-icon blue">⏱</div></div>
+            <div class="stat-num">4.1h</div>
+            <div class="stat-trend">Target SLA: 24 jam</div>
+          </div>
+        </div>
+
+        <!-- Filter & Tabel -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <span class="card-title">Daftar Komplain (26)</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <select class="form-control" style="width:140px; padding:6px 10px;">
+                <option>Semua Status</option>
+                <option>Belum Ditangani</option>
+                <option>Sedang Diproses</option>
+                <option>Selesai</option>
+              </select>
+              <select class="form-control" style="width:140px; padding:6px 10px;">
+                <option>Semua Kategori</option>
+                <option>Produk</option>
+                <option>Pengiriman</option>
+                <option>Pembayaran</option>
+                <option>Lainnya</option>
+              </select>
+              <select class="form-control" style="width:140px; padding:6px 10px;">
+                <option>Semua Prioritas</option>
+                <option>🔴 Tinggi</option>
+                <option>🟡 Sedang</option>
+                <option>🟢 Rendah</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Komplain</th>
+                  <th>Sekolah</th>
+                  <th>Kategori</th>
+                  <th>Isi Komplain</th>
+                  <th>Prioritas</th>
+                  <th>Status</th>
+                  <th>PIC</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="openTicketDetail('K003','SMPN 3 Bekasi','Pengiriman','Barang sudah 10 hari belum sampai, tracking tidak update.','Open','17 Jun 2026')">
+                  <td><strong>K003</strong></td>
+                  <td>SMPN 3 Bekasi</td>
+                  <td>Pengiriman</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Barang 10 hari belum sampai</td>
+                  <td><span style="background:#FEE2E2; color:#DC2626; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🔴 Tinggi</span></td>
+                  <td><span class="badge badge-open"><span class="badge-dot"></span>Belum Ditangani</span></td>
+                  <td style="color:var(--text-soft);">—</td>
+                  <td><button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); showToast('✅ Komplain K003 ditugaskan ke Admin Aini')">Tangani</button></td>
+                </tr>
+                <tr onclick="openTicketDetail('K002','SDN 5 Depok','Produk','Kertas HVS yang diterima lembab dan tidak sesuai spesifikasi.','Open','16 Jun 2026')">
+                  <td><strong>K002</strong></td>
+                  <td>SDN 5 Depok</td>
+                  <td>Produk</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Kertas lembab, tidak sesuai spek</td>
+                  <td><span style="background:#FEE2E2; color:#DC2626; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🔴 Tinggi</span></td>
+                  <td><span class="badge badge-open"><span class="badge-dot"></span>Belum Ditangani</span></td>
+                  <td style="color:var(--text-soft);">—</td>
+                  <td><button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); showToast('✅ Komplain K002 ditugaskan ke Admin Aini')">Tangani</button></td>
+                </tr>
+                <tr onclick="openTicketDetail('K001','MTs Nurul Huda','Pembayaran','Invoice belum diterima padahal pembayaran sudah 3 hari lalu.','Open','15 Jun 2026')">
+                  <td><strong>K001</strong></td>
+                  <td>MTs Nurul Huda</td>
+                  <td>Pembayaran</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Invoice belum diterima 3 hari</td>
+                  <td><span style="background:#FEE2E2; color:#DC2626; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🔴 Tinggi</span></td>
+                  <td><span class="badge badge-open"><span class="badge-dot"></span>Belum Ditangani</span></td>
+                  <td style="color:var(--text-soft);">—</td>
+                  <td><button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); showToast('✅ Komplain K001 ditugaskan ke Admin Aini')">Tangani</button></td>
+                </tr>
+                <tr onclick="openTicketDetail('K009','SDN 01 Jakarta','Produk','Spidol warna berbeda dari yang dipesan di katalog.','Progress','14 Jun 2026')">
+                  <td><strong>K009</strong></td>
+                  <td>SDN 01 Jakarta</td>
+                  <td>Produk</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Spidol warna salah dari katalog</td>
+                  <td><span style="background:#FEF3C7; color:#D97706; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🟡 Sedang</span></td>
+                  <td><span class="badge badge-progress"><span class="badge-dot"></span>Sedang Diproses</span></td>
+                  <td>Aini</td>
+                  <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showToast('📋 Membuka detail komplain K009')">Detail</button></td>
+                </tr>
+                <tr onclick="openTicketDetail('K008','SMAN 2 Bogor','Pengiriman','Pengiriman datang terlambat 2 hari dari jadwal yang dijanjikan.','Progress','13 Jun 2026')">
+                  <td><strong>K008</strong></td>
+                  <td>SMAN 2 Bogor</td>
+                  <td>Pengiriman</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Pengiriman terlambat 2 hari</td>
+                  <td><span style="background:#FEF3C7; color:#D97706; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🟡 Sedang</span></td>
+                  <td><span class="badge badge-progress"><span class="badge-dot"></span>Sedang Diproses</span></td>
+                  <td>Aini</td>
+                  <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showToast('📋 Membuka detail komplain K008')">Detail</button></td>
+                </tr>
+                <tr onclick="openTicketDetail('K007','SDN 12 Tangerang','Lainnya','Permintaan penggantian sales PIC untuk wilayah Tangerang.','Closed','12 Jun 2026')">
+                  <td><strong>K007</strong></td>
+                  <td>SDN 12 Tangerang</td>
+                  <td>Lainnya</td>
+                  <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Permintaan ganti sales PIC</td>
+                  <td><span style="background:#DCFCE7; color:#16A34A; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600;">🟢 Rendah</span></td>
+                  <td><span class="badge badge-closed"><span class="badge-dot"></span>Selesai</span></td>
+                  <td>Budi</td>
+                  <td><button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showToast('📋 Membuka detail komplain K007')">Detail</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Form Respons Cepat -->
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Form Respons Cepat</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Pilih Komplain</label>
+                <select class="form-control">
+                  <option>K003 — SMPN 3 Bekasi — Pengiriman</option>
+                  <option>K002 — SDN 5 Depok — Produk</option>
+                  <option>K001 — MTs Nurul Huda — Pembayaran</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Status Update</label>
+                <select class="form-control">
+                  <option>Sedang Diproses</option>
+                  <option>Menunggu Informasi</option>
+                  <option>Selesai</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pesan Respons</label>
+                <textarea class="form-control" rows="4" placeholder="Tulis respons untuk pelanggan..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Assign ke</label>
+                <select class="form-control">
+                  <option>Admin Aini</option>
+                  <option>Admin Budi</option>
+                  <option>Admin Sari</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" style="width:100%;" onclick="showToast('✅ Respons berhasil dikirim ke pelanggan!')">📤 Kirim Respons</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Distribusi Komplain per Kategori</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Produk</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:42%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">11</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pengiriman</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:31%; background:var(--amber);"></div></div>
+                <span class="chart-bar-count">8</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pembayaran</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:19%; background:var(--red);"></div></div>
+                <span class="chart-bar-count">5</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Lainnya</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:8%; background:#94A3B8;"></div></div>
+                <span class="chart-bar-count">2</span>
+              </div>
+              <hr class="section-divider">
+              <div style="font-size:13px; display:flex; flex-direction:column; gap:8px; color:var(--text-mid);">
+                <div style="display:flex; justify-content:space-between;"><span>Komplain belum ditangani</span><strong style="color:var(--red);">3</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Rata-rata waktu respons</span><strong style="color:var(--green);">4.1 jam</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Komplain terlewat SLA</span><strong style="color:var(--red);">1</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Kepuasan penanganan</span><strong>4.6 / 5.0 ⭐</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────────── -->
+      <!-- LAPORAN (ADMIN)                    -->
+      <!-- ────────────────────────────────── -->
+      <div id="page-laporan" class="hidden">
+        <div class="page-header">
+          <h1>Laporan & Analitik</h1>
+          <p>Ringkasan performa layanan — Juni 2026</p>
+        </div>
+
+        <div class="stat-grid" style="margin-bottom:20px;">
+          <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Total Tiket</span><div class="stat-icon blue">📋</div></div><div class="stat-num">50</div><div class="stat-trend"><span>+18%</span> vs bulan lalu</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><span class="stat-label">Resolusi Rate</span><div class="stat-icon green">✅</div></div><div class="stat-num">94%</div><div class="stat-trend">Target: 90%</div></div>
+          <div class="stat-card c-amber"><div class="stat-top"><span class="stat-label">Avg. Respons</span><div class="stat-icon amber">⏱</div></div><div class="stat-num">3.2h</div><div class="stat-trend">SLA: ≤ 24 jam</div></div>
+          <div class="stat-card c-blue"><div class="stat-top"><span class="stat-label">Kepuasan</span><div class="stat-icon blue">⭐</div></div><div class="stat-num">4.7</div><div class="stat-trend">dari 5.0</div></div>
+        </div>
+
+        <div class="grid-2col" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Distribusi Tiket per Kategori</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Produk</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:44%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">22</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pengiriman</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:32%; background:var(--amber);"></div></div>
+                <span class="chart-bar-count">16</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Pembayaran</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:14%; background:var(--red);"></div></div>
+                <span class="chart-bar-count">7</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Lainnya</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:10%; background:#94A3B8;"></div></div>
+                <span class="chart-bar-count">5</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Tren Tiket per Minggu</span></div>
+            <div class="card-body">
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 1</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:60%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">12</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 2</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:50%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">10</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 3</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:70%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">14</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="chart-bar-label">Minggu 4</span>
+                <div class="chart-bar-track"><div class="chart-bar-fill" style="width:70%; background:var(--blue);"></div></div>
+                <span class="chart-bar-count">14</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3col">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Performa per Admin</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Aini Pratiwi</strong><div style="font-size:11px; color:var(--text-soft);">Senior Support</div></div>
+                <div style="text-align:right;"><strong>22 tiket</strong><div style="font-size:11px; color:var(--green);">2.8 jam avg</div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Sari Wulandari</strong><div style="font-size:11px; color:var(--text-soft);">Support</div></div>
+                <div style="text-align:right;"><strong>18 tiket</strong><div style="font-size:11px; color:var(--green);">3.5 jam avg</div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <div><strong>Budi Santoso</strong><div style="font-size:11px; color:var(--text-soft);">Junior Support</div></div>
+                <div style="text-align:right;"><strong>10 tiket</strong><div style="font-size:11px; color:var(--amber);">5.1 jam avg</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Sekolah Paling Aktif</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SDN 01 Jakarta</strong><span class="badge badge-open">12 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SMPN 3 Bekasi</strong><span class="badge badge-progress">8 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SMAN 2 Bogor</strong><span class="badge badge-progress">7 tiket</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:13px;"><strong>SDN 5 Depok</strong><span class="badge badge-closed">5 tiket</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">Integrasi CRM Aktif</span></div>
+            <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Ticket Management</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Customer Database</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Complaint Tracking</div>
+              <div class="crm-tag" style="display:flex; align-items:center; gap:6px; width:fit-content;">✓ Customer History</div>
+              <div style="margin-top:6px; font-size:12px; color:var(--text-soft);">Channel: SIPLaH · WhatsApp · Website · Instagram</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Tiket berhasil dikirim!</div>
+
+<script>
+  let currentRole = 'pelanggan';
+  let prevPage = 'dash-pelanggan';
+
+  function loginAs(role) {
+    currentRole = role;
+    document.getElementById('page-landing').classList.add('hidden');
+    document.getElementById('app-shell').classList.remove('hidden');
+
+    if (role === 'admin') {
+      document.getElementById('nav-pelanggan').classList.add('hidden');
+      document.getElementById('nav-admin').classList.remove('hidden');
+      document.getElementById('user-initial').textContent = 'A';
+      document.getElementById('user-display-name').textContent = 'Admin Aini';
+      document.getElementById('user-display-role').textContent = 'Administrator';
+      showPage('dash-admin');
+      document.querySelector('#nav-admin .nav-item').classList.add('active');
+    } else {
+      document.getElementById('nav-admin').classList.add('hidden');
+      document.getElementById('nav-pelanggan').classList.remove('hidden');
+      document.getElementById('user-initial').textContent = 'S';
+      document.getElementById('user-display-name').textContent = 'SDN 01 Jakarta';
+      document.getElementById('user-display-role').textContent = 'Pelanggan';
+      showPage('dash-pelanggan');
+      document.querySelector('#nav-pelanggan .nav-item').classList.add('active');
+    }
+  }
+
+  function showPage(id) {
+    document.querySelectorAll('.page-content > div').forEach(p => p.classList.add('hidden'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.remove('hidden');
+
+    const titles = {
+      'dash-pelanggan': 'Dashboard',
+      'buat-tiket': 'Buat Tiket',
+      'riwayat': 'Riwayat Tiket',
+      'profil': 'Profil Saya',
+      'detail-tiket': 'Detail Tiket',
+      'dash-admin': 'Dashboard Admin',
+      'tiket-masuk': 'Tiket Masuk',
+      'komplain-pelanggan': 'Komplain Pelanggan',
+      'data-pelanggan': 'Data Pelanggan',
+      'laporan': 'Laporan & Analitik',
+    };
+    document.getElementById('topbar-title').textContent = titles[id] || id;
+  }
+
+  function goto(id, navEl) {
+    prevPage = id;
+    showPage(id);
+    const navContainer = currentRole === 'admin' ? document.getElementById('nav-admin') : document.getElementById('nav-pelanggan');
+    navContainer.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    if (navEl && navEl.classList) navEl.classList.add('active');
+  }
+
+  function openTicketDetail(id, pelanggan, kategori, desc, status, tanggal) {
+    prevPage = currentRole === 'admin' ? 'tiket-masuk' : 'riwayat';
+    document.getElementById('detail-id').textContent = id;
+    document.getElementById('detail-pelanggan').textContent = pelanggan;
+    document.getElementById('detail-kategori').textContent = kategori;
+    document.getElementById('detail-desc').textContent = desc;
+    document.getElementById('detail-tanggal').textContent = tanggal;
+    document.getElementById('detail-chat-pelanggan').textContent = desc;
+
+    const badge = document.getElementById('detail-badge');
+    badge.className = 'badge ' + (status === 'Open' ? 'badge-open' : status === 'Progress' ? 'badge-progress' : 'badge-closed');
+    badge.innerHTML = '<span class="badge-dot"></span>' + status;
+
+    showPage('detail-tiket');
+  }
+
+  function goBack() {
+    showPage(prevPage);
+  }
+
+  function logout() {
+    document.getElementById('app-shell').classList.add('hidden');
+    document.getElementById('page-landing').classList.remove('hidden');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  }
+
+  function selectCat(el) {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function submitTiket() {
+    const judul = document.getElementById('tiket-judul').value.trim();
+    const desc = document.getElementById('tiket-desc').value.trim();
+    if (!judul || !desc) {
+      showToast('⚠️ Judul dan deskripsi harus diisi!');
+      return;
+    }
+    document.getElementById('tiket-judul').value = '';
+    document.getElementById('tiket-desc').value = '';
+    showToast('✅ Tiket berhasil dikirim! Tim kami akan segera merespons.');
+    goto('riwayat', document.querySelectorAll('#nav-pelanggan .nav-item')[2]);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+</script>
+</body>
+</html>
